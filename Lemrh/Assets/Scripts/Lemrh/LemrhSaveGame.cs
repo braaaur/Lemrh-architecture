@@ -3,7 +3,7 @@
  * 
  * Created: 13.01.2018 r.
  * 
- * Edited: 2.04.2023 r.
+ * Edited: 11.04.2023 r.
  *  
  * [LemrhSaveGame]
  * 
@@ -42,8 +42,7 @@ namespace Lemrh
         [SerializeField] private ISavable configCollector; 
 
         [Header("Save")] //single ISavables to avoid prefab changes, just ISavable collectors nesting
-        [SerializeField] private ISavable slotCollector; //all slot - overloop + run status
-        [SerializeField] private ISavable runSaveCollector; //run status only
+        [SerializeField] private ISavable saveCollector; //all slot
 
         [Header("Events")]
         [SerializeField] private UnityEvent configSaved;
@@ -54,10 +53,6 @@ namespace Lemrh
 
         [Header("Current values")]
         [SerializeField] private LemString currentSlotFileName;
-        [SerializeField] private LemBool isCurrentRunActive;
-        [SerializeField] private LemInt currentRunIndex;
-        //private Config currentConfig;
-        //private Slot currentSlot;
 
         [Header("Language setters")]
         [SerializeField] private bool setSystemLanguage;
@@ -281,23 +276,23 @@ namespace Lemrh
             {
                 //if (toLoad.saveEntities != null) //when?
                 //{
-                    try
+                try
+                {
+                    saveCollector.Load(toLoad.saveEntities);
+                }
+                catch
+                {
+                    Debug.LogError("Slot entities applying error!");
+
+                    if (createNewWhenFail)
                     {
-                        slotCollector.Load(toLoad.saveEntities);
+                        Debug.Log("createNewWhenFail == true, thus creating default one...");
+
+                        CreateAndSaveDefaultSlot();
                     }
-                    catch
-                    {
-                        Debug.LogError("Slot entities applying error!");
 
-                        if (createNewWhenFail)
-                        {
-                            Debug.Log("createNewWhenFail == true, thus creating default one...");
-
-                            CreateAndSaveDefaultSlot();
-                        }
-
-                        return false;
-                    }
+                    return false;
+                }
                 //}
                 //else
                 //{
@@ -406,7 +401,7 @@ namespace Lemrh
         {
             Debug.Log("SetSlotDefaults() in LemrhSaveGame.cs");
 
-            slotCollector.Reset();
+			saveCollector.Reset();
         }
 
         //[Button("Save Current Slot")]
@@ -421,7 +416,7 @@ namespace Lemrh
 
                 Slot toSave = new Slot();
 
-                toSave.saveEntities = slotCollector.Save(); 
+                toSave.saveEntities = saveCollector.Save(); 
 
                 binaryFormatter.Serialize(fileStream, toSave);
                 fileStream.Close();
@@ -501,10 +496,6 @@ namespace Lemrh
 
             SetRunDefaults();
 
-            currentRunIndex.IntValue++;
-
-            isCurrentRunActive.BoolValue = true;
-
             SaveCurrentSlot();
         }
 
@@ -512,7 +503,7 @@ namespace Lemrh
         {
             Debug.Log("SetRunDefaults() in LemrhSaveGame.cs");
 
-            runSaveCollector.Reset();
+			saveCollector.Reset();
         }
 		#endregion
 
