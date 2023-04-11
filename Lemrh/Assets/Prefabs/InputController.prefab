@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attachedLemFloatSO: {fileID: 0}
+  attachedLemVector3SO: {fileID: 0}
   performedEvent:
     m_PersistentCalls:
       m_Calls:
@@ -221,6 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attachedLemFloatSO: {fileID: 11400000, guid: d9fade6632dfe9d4fb497a8a7d366b52, type: 2}
+  attachedLemVector3SO: {fileID: 0}
   performedEvent:
     m_PersistentCalls:
       m_Calls: []

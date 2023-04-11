@@ -3,7 +3,7 @@
  * 
  * Created: ?
  * 
- * Edited: 2.04.2023 r.
+ * Edited: 11.04.2023 r.
  *  
  * [NewInputToSoController]
  * 
@@ -21,8 +21,8 @@ namespace Lemrh
     //public class NewInputToSoController : SerializedMonoBehaviour
     public class NewInputToSoController : MonoBehaviour
     {
-        public LemFloat attachedLemFloatSO;
-        public ILemVector3 attachedLemVector3SO;
+        public LemFloatHybridEvent attachedLemFloatSO;
+        public LemVector3 attachedLemVector3SO;
 
         public UnityEvent performedEvent;
 

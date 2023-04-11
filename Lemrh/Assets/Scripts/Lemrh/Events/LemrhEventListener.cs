@@ -19,7 +19,8 @@ namespace Lemrh
 {
     public class LemrhEventListener : MonoBehaviour
     {
-        public ILemrhEvent lemrhEvent;
+        //public ILemrhEvent lemrhEvent;
+        public LemrhEvent lemrhEvent;
         public UnityEvent Response;
 
         public void OnEventRised(bool isDebug)
